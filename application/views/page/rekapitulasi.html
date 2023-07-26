@@ -1,0 +1,238 @@
+<!-- DataTables -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+<style>
+
+
+table { 
+border-collapse:collapse;
+border: 1px solid #999;  
+font-family:Arial, sans-serif;
+font-size:16px;
+width:100%;
+caption-side: top;
+}
+caption, table td {
+padding:10px;
+border-top:1px black solid;
+border-bottom:1px black solid;
+<!-- text-align:center;  -->
+}   
+caption {
+font-weight: bold;
+font-style: italic;
+}
+table .left {
+text-align: left;
+padding: 7px;
+}
+
+</style>
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="<?=base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- InputMask -->
+<script src="<?=base_url();?>assets/plugins/moment/moment.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- date-range-picker -->
+<script src="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Rekapitulasi</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?=base_url();?>">Home</a></li>
+            <li class="breadcrumb-item active">Laporan</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="card card-primary card-outline">
+          <div class="card-header">
+            <form action="<?=base_url('laporan');?>" method="get">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="input-group date" data-target-input="nearest">
+                    <input type="text" onchange="clickValue()" class="form-control datetimepicker-input" id="tanggal" name="tanggal" value="" data-target="#tanggal"/>
+                    <div class="input-group-append" data-target="#tanggal" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div> <!-- /.card-body -->
+          <div class="card-body table-responsive">
+            <table>
+                <tbody>
+                  <?php
+                    echo '<tr>';
+                      echo '<td><label>Total Piket Hadir</label>  </td>';
+                      echo '<td><a href="#" class="total-count" data-status="H" id="total-hadir"></a></td>';
+                      echo '<td><label>Total Lepas Piket</label>  </td>';
+                      echo '<td><a href="#" class="total-count" data-status="L" id="total-lepas"></a></td>';
+                    echo '</tr>';
+					echo '<tr>';
+                      echo '<td><label>Total Cadangan Piket</label> </td>';
+                      echo '<td><a href="#" class="total-count" data-status="C" id="total-cadangan"></a></td>';
+                      echo '<td><label>Total Izin / Sakit / dll</label></td>';
+                      echo '<td><a href="#" class="total-count" data-status="T" id="total-lain"></a></td>';
+                    echo '</tr>';
+                  ?>
+                </tbody>
+            </table>
+          </div><!-- /.card-body -->
+		  <div class="card-body table-responsive">
+			<table id="table-response">
+				<thead>
+					<tr><th>Nama</th>
+						<th>Jabatan</th>
+						<th>Group Paket</th>
+						<th>Ket. Izin / Sakit</th></tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		  </div>
+        </div>
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>
+
+<script type="text/javascript">
+	
+	/*
+	$(document).ready(function(){		
+		$("#total-hadir").on("click", function(e){
+			new DataTable('#show-table', {
+			"responsive": true, "lengthChange": false, "autoWidth": false,searching: false, paging: false, info: false,
+				ajax: {
+					url: '<?=base_url()?>C_admin/ajax_get_detail',
+					type: 'POST',
+					'data': {
+						tanggal: $("#tanggal").val(),
+						status: $(this).data('status')
+					},
+				},
+				'columns' : [
+					{
+						'data' : 'nama'
+					},
+					{
+						'data' : 'jabatan'
+					},
+					{
+						'data' : 'group_piket'
+					},
+					{
+						'data' : 'keterangan'
+					}
+				] ,
+				processing: true,
+				serverSide: true
+			});
+		});
+	});
+	*/
+	
+	$(document).on("click", ".total-count", function(e) {
+	
+		$.post( '<?=base_url()?>C_admin/ajax_get_detail', { tanggal: $("#tanggal").val(), status : $(this).data('status')}, 
+			function(responses){
+				 var tableData = '';
+				 var tbody = $("#table-response").find("tbody");
+					 tbody.html('');
+				 
+				 $.each(JSON.parse(responses), function(i, row) {
+					console.log(row);
+					tableData += '<tr><td>' + row.nama + '</td>' +
+								'<td>' + row.jabatan + '</td>' +
+								'<td>' + row.group_piket + '</td>' +
+							    '<td>' + row.keterangan + '</td></tr>';
+				 });
+				 
+				 tbody.html(tableData);	
+		});
+	
+	});
+  
+   //Date picker
+	$('#tanggal').datetimepicker({
+		format: 'YYYY-MM-DD'
+	});
+  
+   
+  
+  function clickValue() {
+	var tanggal = $("#tanggal").val();
+	
+	$.ajax({
+        url: '<?=base_url()?>C_admin/ajax_get',
+        method: 'post',
+        data: {tanggal:tanggal},
+        dataType: 'json',
+        success: function (response) {
+		    $.each(response, function(index, row) {
+			    if (row.STATUS == 'H') {
+					$('#total-hadir').html(row.jml_status);
+				}
+				else if (row.STATUS == 'L') {
+				    $('#total-lepas').html(row.jml_status);
+				}
+				else if (row.STATUS == 'C') {
+					$('#total-cadangan').html(row.jml_status);
+				}
+				else if (row.STATUS == 'T') {
+					$('#total-lain').html(row.jml_status);
+				}
+				else {
+					// nothing
+				}
+		    });
+		//console.log(response[0].STATUS);
+		<!-- alert(response); -->
+          // Remove options
+          $('#id_karyawan').find('option').not(':first').remove();
+
+          // Add options
+          $.each(response, function (index, data) {
+            $('#id_karyawan').append('<option value="' + data['id_karyawan'] + '">' + data['nama_karyawan'] + '</option>');
+          });
+        }
+      });
+  }
+  
+  
+	
+</script>

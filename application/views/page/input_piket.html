@@ -1,0 +1,226 @@
+<!-- DataTables -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
+
+<style>
+  .disable-link {
+    pointer-events: none;
+  }
+</style>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+  <?php if ($this->session->flashdata('message')) { ?>
+  <div class="col-lg-12 alerts">
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4> <i class="icon fa fa-check"></i>Berhasil</h4>
+      <p>
+        <?php echo $this->session->flashdata('message'); ?>
+      </p>
+    </div>
+  </div>
+  <?php } else {
+    } 
+    ?>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Absensi Piket</h3>
+            </div>
+            <div class='box-header  with-border'>
+				<div class="pull-left">Tanggal Hari Ini
+				<input type="text" readonly class="form-control"  id="tgl"
+										 value="<?=$tgl;?>" />
+					<!-- <select readonly class="form-control" name="id_karyawan" id="id_karyawan">
+						<option value="<?=$tgl;?>">  </option>
+						<?php
+							  foreach($list_jadwal as $row)
+							  {
+								echo '<option  value="'.$row->tanggal.'">'.$selected.$row->tanggal.'</option>';
+							  }
+							?>
+					  </select> -->
+				</div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+			<form action="<?=base_url('simpan-piket');?>" method="post" enctype="multipart/form-data">
+              <table class="table table-bordered table-striped" id="mytable">
+                <thead>
+                  <tr>
+                    <th>Nama</th>
+                    <th>Jabatan</th>
+                    <th>Status Piket</th>
+                    <th>Ket. Ijin/Sakit/dll</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+						
+                        foreach($list_anggota as $row)
+                        {
+							echo '<tr>';
+							echo '<input type="hidden" name="id_anggota[]" value="'.$row->id_anggota.'">';
+							echo '<td> <input type="text" readonly class="form-control" name="nama[]" id="nama"
+										 value="'.$row->nama.'" /></td>';
+							echo '<td> <input type="text" readonly class="form-control" name="jabatan[]" id="jabatan"
+										 value="'.$row->jabatan.'" /></td>';
+							echo '<td>
+							<select onchange="changeValue('."'".$row->id_anggota."'".')"	 class="form-control" name="status[]" id="status">
+							<option value=""> -- Status Piket -- </option>';
+								$selected = "";
+								$selected2 = "";
+								$selected3 = "";
+								if($row->group_piket == "A"){
+								  $selected = "selected";
+								}
+								elseif($row->group_piket == "B"){
+								  $selected2 = "selected";
+								}
+								elseif($row->group_piket == "C"){
+								  $selected3 = "selected";
+								}
+								echo '<option value="H" '.$selected.'>Piket Hadir</option>';
+								echo '<option value="C" '.$selected2.'>Cadangan Piket</option>';
+								echo '<option value="L" '.$selected3.'>Lepas Piket</option>';
+								echo '<option value="T" >Tidak Hadir</option>';
+								
+								echo '
+							</select>
+							</td>';
+							echo '<td> <input type="text" readonly class="form-control" name="keterangan[]" id="keterangan"
+										placeholder="Keterangan" value="" /></td>';
+                          
+                          echo '</tr>';
+                          //$no++;
+                        }
+                      ?>
+                </tbody>
+              </table>
+			  </br>
+              <a href="<?php echo site_url('dash-home') ?>" class="btn btn-default">Cancel</a>
+			  <button type="submit" class="btn btn-primary"
+                onclick="javascript: return confirm('Are You Sure ?')">Submit</button>
+				<!-- <button type="button" name="save" id="save" class="btn btn-primary">Save</button> -->
+				&nbsp;&nbsp;&nbsp;
+			</form>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+
+
+
+</div>
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="<?=base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- InputMask -->
+<script src="<?=base_url();?>assets/plugins/moment/moment.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- date-range-picker -->
+<script src="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script type="text/javascript">
+  $("#mytable").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,searching: false, paging: false, info: false
+  }).buttons().container().appendTo('#mytable_wrapper .col-md-6:eq(0)');
+  
+  function changeValue(id) {
+		var value = $("#status").val();
+		if(value = 'T')
+		{
+			$('#keterangan').attr('readonly', false);
+		}
+		else{
+		$('#keterangan').attr('readonly', true);
+		}
+	}
+  
+  /*
+  $(document).ready(function(){
+	var count = 1;
+	$('#save').click(function(){
+            var nama = [];
+            var jabatan = [];
+            var status = [];
+            var keterangan = [];         
+            $('.nama').each(function(){
+                nama.push($(this).text());
+            });           
+            $('.jabatan').each(function(){
+                jabatan.push($(this).text());
+            });            
+
+            $('.status').each(function(){
+                status.push($(this).text());
+            });
+
+            $('.keterangan').each(function(){
+                keterangan.push($(this).text());
+            });
+            $.ajax({
+                url:'<?=base_url()?>C_admin/simpan_piket',
+                method:"POST",
+                data:{nama:nama, jabatan:jabatan, status:status, keterangan:keterangan},
+                success:function(data){
+                    alert(data);
+                    $("td[contentEditable='true']").text("");
+                        for(var i=2; i<= count; i++){
+                            $('tr#'+i+'').remove();
+                        }
+                        fetch_item_data();
+                    }
+                });
+			function fetch_item_data(){
+				$.ajax({
+					url:'<?=base_url()?>C_admin/fetch',
+					method:"POST",
+						success:function(data){
+							$('#inserted_item_data').html(data);
+						}
+				})
+			}
+			fetch_item_data();
+		});
+	});
+  */
+
+</script>

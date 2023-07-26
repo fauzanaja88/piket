@@ -1,0 +1,151 @@
+<!-- DataTables -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
+
+<style>
+  .disable-link {
+    pointer-events: none;
+  }
+</style>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+  <?php if ($this->session->flashdata('message')) { ?>
+  <div class="col-lg-12 alerts">
+    <div class="alert alert-dismissible alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4> <i class="icon fa fa-check"></i>Berhasil</h4>
+      <p>
+        <?php echo $this->session->flashdata('message'); ?>
+      </p>
+    </div>
+  </div>
+  <?php } else {
+    } 
+    ?>
+
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Data Lembur Karyawan</h3>
+            </div>
+            <div class='box-header  with-border'>
+              <div class="pull-right">
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php
+              echo anchor('C_admin/input_lembur', 'Tambah data', array('class' => 'btn btn-success'))
+                ?>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+              <table class="table table-bordered table-striped" id="mytable">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nama Karyawan</th>
+                    <th>Tanggal Lembur</th>
+                    <th>Jam Mulai</th>
+                    <th>Jam Selesai</th>
+                    <th>Total Jam</th>
+                    <th>Keterangan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                        $no=1;
+                        foreach($list_piket as $row)
+                        {
+                          echo '<tr>';
+                          echo '<td>'.$no.'</td>';
+                          echo '<td>''</td>';
+    
+                          if($row->approval == 0)
+                            $color = "<font color= orange >$row->status</font>";
+                          else if($row->approval == 1)
+                          $color = "<font color= green >$row->status</font>";
+                          else
+                          $color = "<font color= red >$row->status</font>";
+    
+                          echo '<td >'.$color.'</td>';
+                          if(in_array($row->approval,array(0,2)))
+                          {
+                            echo '<td>'.anchor(site_url('C_admin/edit_lembur/' . $row->id_lembur ), 
+                            '<i class="fa fa-edit "></i>', array('title' => 'edit', 'class' => 'btn btn-sm btn-warning'));
+                            echo '&nbsp';
+                            echo anchor(site_url('C_admin/delete/' . $row->id_lembur), '<i class="fa fa-trash fa-lg"></i>', 'title="delete" class="btn btn-sm btn-danger "').'</td>';
+                          }
+                          else
+                          {
+                            echo '<td>'.anchor(site_url('C_admin/index_lembur/'), '<i class="fa fa-edit "></i>', array('title' => 'edit', 'class' => 'disable-link btn btn-sm btn-default'));
+                            echo '&nbsp';
+                            echo anchor(site_url('C_admin/delete/'), '<i class="fa fa-trash fa-lg"></i>', 'title="delete" class="disable-link btn btn-sm btn-default"').'</td>';
+                          }
+                          echo '</tr>';
+                          $no++;
+                        }
+                      ?>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+
+
+
+</div>
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="<?=base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- InputMask -->
+<script src="<?=base_url();?>assets/plugins/moment/moment.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- date-range-picker -->
+<script src="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script type="text/javascript">
+  $("#mytable").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["excel", "pdf", "print", "colvis"]
+  }).buttons().container().appendTo('#mytable_wrapper .col-md-6:eq(0)');
+
+</script>

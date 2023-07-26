@@ -1,0 +1,258 @@
+<!-- daterange picker -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.css">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/toastr/toastr.min.css">
+
+
+<style type="text/css">
+  .btn-tool {
+    margin: -0.75rem 0;
+    float: right;
+  }
+
+  .btn-app {
+    width: 95%;
+  }
+</style>
+
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <!-- <h1 class="m-0">Dashboard</h1> -->
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <!-- <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol> -->
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+
+      <!-- ROW 2 -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- BAR CHART -->
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Form Data</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <a class="btn btn-app bg-success" href="<?=base_url('input-pengiriman');?>">
+                <!-- <span class="badge bg-purple">891</span> -->
+                <i class="fas fa-truck"></i> Input Pengiriman Barang
+              </a>
+
+              <br>
+              <br>
+              <a class="btn btn-app bg-warning" href="#" data-toggle="modal" data-target="#modal-scan"
+                onclick="openCamera()">
+                <!-- <span class="badge bg-purple">891</span> -->
+                <i class="fas fa-truck-loading"></i> Scan Penerimaan Barang
+              </a>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <!-- BAR CHART -->
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Transfer Status</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+
+              <form action="<?=base_url();?>index-pengiriman" method="get" class="frm-cari">
+                <table>
+                  <tr>
+                    <td>
+                      <select class="form-control" name="kode_kantor" id="kode_kantor">
+                        <option value=""> -- Pilih Cabang -- </option>
+                        <?php
+                              foreach($list_kantor as $row)
+                              {
+                                if((trim(strtoupper($row->kode_kantor))) == (trim(strtoupper($get->kode_kantor))))
+                                {
+                                  echo '<option  value="'.$row->kode_kantor.'" selected>'.$row->nama_kantor.'</option>';
+                                }else
+                                echo '<option  value="'.$row->kode_kantor.'">'.$row->nama_kantor.'</option>';
+                              }
+                            ?>
+                      </select>
+
+                    </td>
+                    <td>
+                      <!-- <input type="text" name="cari"  maxlength="35" class="text form-control" size="35" alt="tlp" title="Cari data" placeholder="...Cari" 
+                        value="<?php if (!empty($_GET['cari'])){echo $_GET['cari'];} ?>"/> -->
+                      <input type="text" name="cari" maxlength="35" class="text form-control" size="35" alt="tlp"
+                        title="Cari data" placeholder="...Cari"
+                        value="<?php if (!empty($_GET['cari'])){echo $_GET['cari'];} ?>" />
+                    </td>
+                    <td>
+                      <!-- <button type="submit" id="btnsimpan" class="btn btn-success btn-block btn-flat" 
+                        title="Pencarian Data <?php echo $msgbox_title;?> ?">CARI</button> -->
+                      <button type="submit" id="btnsimpan" class="btn btn-success btn-block btn-flat"
+                        title="Pencarian Data">CARI</button>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              <table id="example2" class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th width="75px">#</th>
+                    <th>Deskripsi Paket</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+                  <?php
+                      $no=1;
+                      foreach($list_transfer as $row)
+                      {
+                        echo '<tr>';
+                        echo '<td><input type="hidden" id="id_transfer_'.$no.'" value="'.$row->id_transfer.'">'.$no.'</td>';
+                        echo '<td><a href="'.base_url().'input-penerimaan/'.$row->id_transfer.'">'.$row->tgl_kirim.' <br>
+                                  No : '.$row->no_pengiriman.' <br>
+                                  Pengirim : '.$row->nama_kantor.' <br>
+                                  Tujuan : '.$row->kantor_terima.' <br>
+                                  '.$row->keterangan.' <br>
+                              </a>
+                              <a href="'.base_url().'input-penerimaan/'.$row->id_transfer.'"><i class="fas fa-edit"></i> Terima</a> &nbsp;</td>';
+                        //echo '<td></td>';
+                        echo '</tr>';
+
+                        $no++;
+                      }
+                    ?>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>
+
+
+
+<!-- modal scanner -->
+<div class="modal fade" id="modal-scan">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Scan Barcode</h4>
+      </div>
+      <div class="modal-body table-responsive">
+        <div style="width: 300px; height: 300px;" id="reader"></div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="<?=base_url();?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="<?=base_url();?>assets/plugins/chart.js/Chart.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/chart.js/chartjs-plugin-labels.min.js"></script>
+<!-- InputMask -->
+<script src="<?=base_url();?>assets/plugins/moment/moment.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- date-range-picker -->
+<script src="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="<?=base_url();?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<!-- Toastr -->
+<script src="<?=base_url();?>assets/plugins/toastr/toastr.min.js"></script>
+
+<!-- QR SCANNER -->
+<script src="<?=base_url();?>assets/plugins/html5-qrcode.min.js"></script>
+
+<?php 
+        if ($this->session->flashdata('message') != '') {
+            echo 'toastr.success("'.$this->session->flashdata('message').'")';
+  }
+  ?>
+<script type="text/javascript">
+  const html5QrCode = new Html5Qrcode("reader", { formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE] });
+  const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+  const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    //alert(decodedText);
+    //html5QrCode.clear();
+    $('#modal-scan').modal('hide');
+    var cari = decodedText;
+
+    $.ajax({
+      type: "POST", dataType: 'json', url: "<?=base_url();?>C_admin/cari_data/",
+      data: {
+        cari: cari,
+      },
+      success: function (data) {
+        console.log(data);
+        if (data == 'not') {
+          toastr.error("Barcode salah");
+        } else {
+          window.location.replace('<?=base_url();?>input-penerimaan/' + data.id_transfer);
+        }
+
+      }
+    });
+
+  }
+
+
+  function openCamera() {
+    // If you want to prefer front camera
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+  }
+</script>

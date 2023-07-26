@@ -1,0 +1,130 @@
+<!-- daterange picker -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.css">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="<?=base_url();?>assets/plugins/toastr/toastr.min.css">
+
+
+<style type="text/css">
+  .btn-tool {
+    margin: -0.75rem 0;
+    float: right;
+  }
+
+  .btn-app {
+    width: 95%;
+  }
+</style>
+
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h4 class="m-0">Dashboard</h4>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <!-- <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol> -->
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+
+
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <!-- ./col -->
+        <!-- ./col -->
+		<?php
+		if(in_array ($this->session->userdata('username'),array('pimpinan.kelompok') )){        
+		?>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+		  
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <p>
+              <h4><i class="fas fa-edit"></i>&nbsp; Absensi Piket</h4>
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="<?=base_url('input-piket');?>" class="small-box-footer">Input Here <i
+                class="fas fa-arrow-circle-right"></i></a>
+          </div>
+		
+        </div>
+		  <?php
+		}  
+		if(in_array ($this->session->userdata('username'),array('pimpinan.apel') )){        
+        ?>
+		<div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <p>
+              <h4><i class="fas fa-arrow-circle-right"></i>&nbsp;Rekapitulasi</h4>
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="<?=base_url('rekapitulasi');?>" class="small-box-footer">View Here <i
+                class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+		  <?php
+		}      
+        ?>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="<?=base_url();?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="<?=base_url();?>assets/plugins/chart.js/Chart.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/chart.js/chartjs-plugin-labels.min.js"></script>
+<!-- InputMask -->
+<script src="<?=base_url();?>assets/plugins/moment/moment.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?=base_url();?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- date-range-picker -->
+<script src="<?=base_url();?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="<?=base_url();?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<!-- Toastr -->
+<script src="<?=base_url();?>assets/plugins/toastr/toastr.min.js"></script>
+
+<!-- QR SCANNER -->
+<script src="<?=base_url();?>assets/plugins/html5-qrcode.min.js"></script>
+
+<?php 
+        if ($this->session->flashdata('message') != '') {
+            echo 'toastr.success("'.$this->session->flashdata('message').'")';
+  }
+  ?>
+
+<script type="text/javascript">
+
+</script>

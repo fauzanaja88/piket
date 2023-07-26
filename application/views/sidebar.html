@@ -1,0 +1,90 @@
+<aside class="main-sidebar elevation-4 sidebar-light-lightblue">
+  <!-- Brand Logo -->
+  <a href="#" class="brand-link bg-lightblue">
+    <img src="<?=base_url();?>assets/logo-fitness.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      style="opacity: .8">
+    <span class="brand-text font-weight-light">Absensi Piket</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="<?=base_url();?>assets/noimage.png" class="img-circle elevation-2" alt="User Image">
+      </div>
+    <div class="info">
+		Welcome<br>
+        <a href="#" class="d-block"><?=$this->session->userdata('full_name');?></a>
+      </div>
+    </div>
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+        <li id="menu-dasboard" class="nav-item">
+          <a id="menu-dasboard2" href="<?=base_url('dash-home');?>" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            </p>
+          </a>
+        </li>
+		<?php
+		if(in_array ($this->session->userdata('username'),array('pimpinan.kelompok') )){        
+        ?>
+        <li class="nav-item">
+          <a href="<?=base_url('input-piket');?>" class="nav-link">
+            <i class="nav-icon fas fa-share-square"></i>
+            <p>Absensi Piket</p>
+          </a>
+        </li>
+        <?php }
+		if(in_array($this->session->userdata('username'),array('pimpinan.apel') )){   
+		?>		
+		
+		<li class="nav-item">
+          <a href="<?=base_url('rekapitulasi');?>" class="nav-link">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Rekapitulasi Piket</p>
+          </a>
+        </li>
+		<?php }?>
+        
+        <li class="nav-item">
+          <a href="<?=base_url('logout');?>" class="nav-link">
+            <i class="nav-icon fas fa-power-off"></i>
+            <p>Logout</p>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+
+<!-- jQuery -->
+<script src="<?=base_url();?>assets/plugins/jquery/jquery.min.js"></script>
+
+
+<?php
+    /*$route = $this->uri->segment(1, 0);
+
+    if ($route == 'jabatan') {
+        echo "$('#karyawan').attr('class','nav-item menu-open menu-is-opening');";
+        echo "$('#karyawan2').attr('class','nav-link active');";
+        echo "$('#jabatan').attr('class','nav-link active');";
+    }*/
+    ?>
+
+<script type="text/javascript">
+  $(function () {
+
+
+  });
+
+</script>
